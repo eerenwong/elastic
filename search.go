@@ -43,6 +43,15 @@ func NewSearchService(client *Client) *SearchService {
 	return builder
 }
 
+// Siren Federate Plugin support
+// For details
+// See:
+// https://docs.siren.solutions/5.6.8-10.0.0-rc.1/federate/
+func (s *SearchService) Siren() *SearchService {
+	s.searchSource.siren = true
+	return s
+}
+
 // SearchSource sets the search source builder to use with this service.
 func (s *SearchService) SearchSource(searchSource *SearchSource) *SearchService {
 	s.searchSource = searchSource
@@ -401,6 +410,10 @@ func (s *SearchService) buildURL() (string, url.Values, error) {
 	}
 	if len(s.filterPath) > 0 {
 		params.Set("filter_path", strings.Join(s.filterPath, ","))
+	}
+	// added siren-federate plugin support
+	if s.searchSource.siren {
+		path = "/siren" + path
 	}
 	return path, params, nil
 }
