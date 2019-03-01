@@ -14,6 +14,7 @@ type SearchSource struct {
 	query                    Query
 	postQuery                Query
 	sliceQuery               Query
+	siren                    bool
 	from                     int
 	size                     int
 	explain                  *bool
